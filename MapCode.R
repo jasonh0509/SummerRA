@@ -7,6 +7,7 @@ library('maptools')
 library('shapefiles')
 library('ggmap')
 library('ggpubr')
+library('ggplot2')
 
 
 data = read.csv('DataForJason.csv',header=TRUE)
