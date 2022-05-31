@@ -25,15 +25,31 @@ oh.map.data=fortify(oh.map[oh.map$STATEFP=='39',],region='COUNTYFP')
 oh.map.data$id2=as.numeric(oh.map.data$id)
 oh.map.data.merge=merge(oh.map.data,data,by.x="id2",by.y="FIPS")
 
+
+##subseting year 2018
 mappingdata = oh.map.data.merge[which(oh.map.data.merge$Year==2018),]
+##which command identify what rows have year 2018
 
 limits = c(min(data$death.rate),max(data$death.rate))
 
-ggplot()+
+plot2018<-ggplot()+
   geom_polygon(data=mappingdata,aes(x=long,y=lat,group=group,fill=death.rate),color='black',alpha=.8,size=.3)+
   scale_fill_gradient2(name="",limits=limits,low='blue',high='red')+
   coord_map()+
   theme_nothing(legend=T)+
   ggtitle("2018")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+plot2018
+
+##Subset Year 2007
+mapping2007=oh.map.data.merge[which(oh.map.data.merge$Year==2007),]
+limits2=c(min(data$death.rate),max(data$death.rate))
+
+plot2007<-ggplot()+
+  geom_polygon(data=mapping2007,aes(x=long,y=lat,group=group,fill=death.rate),color='black',alpha=.8,size=.3)+
+  scale_fill_gradient2(name="",limits=limits,low='blue',high='red')+
+  coord_map()+
+  theme_nothing(legend=T)+
+  ggtitle("2007")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+plot2007
 
 
