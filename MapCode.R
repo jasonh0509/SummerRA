@@ -41,7 +41,7 @@ plot2018<-ggplot()+
   coord_map()+
   theme_nothing(legend=T)+
   ggtitle("2018")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-plot2018
+
 
 ##Subset Year 2007
 mapping2007=oh.map.data.merge[which(oh.map.data.merge$Year==2007),]
@@ -53,9 +53,23 @@ plot2007<-ggplot()+
   coord_map()+
   theme_nothing(legend=T)+
   ggtitle("2007")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-plot2007
-
-grid.arrange(plot2018,plot2007)
 
 
+##Subset Hamilton county in OH
+HamiltonMap<-subset(mappingdata,County=="Hamilton")
 
+plot2018+
+  geom_point(aes(x=-84.5120,y=39.1031))+
+  geom_point(aes(x=-81.6944,y=41.4993))+
+  geom_point(aes(x=-82.9988,y=39.9612))+
+  geom_text(aes(-84.5120,39),label="Cincinnati",color="black")+
+  geom_text(aes(-81.6944,41.4),label="Cleveland",color="black")+
+  geom_text(aes(-82.9988,39.85),label="Columbus",color="black")
+  
+    
+  
+
+
+  
+  
+  
