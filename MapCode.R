@@ -9,6 +9,8 @@ library('ggmap')
 library('ggpubr')
 library('ggplot2')
 library('gridExtra')
+library('cowplot')
+library('sf')
 
 
 data = read.csv('DataForJason.csv',header=TRUE)
@@ -52,6 +54,8 @@ plot2007<-ggplot()+
   theme_nothing(legend=T)+
   ggtitle("2007")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 plot2007
+
+grid.arrange(plot2018,plot2007)
 
 
 
