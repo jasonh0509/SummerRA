@@ -1,4 +1,3 @@
-
 #### load the packages required
 library('rgeos')
 library('spdep')
@@ -9,7 +8,6 @@ library('ggmap')
 library('ggpubr')
 library('ggplot2')
 library('gridExtra')
-library('cowplot')
 library('sf')
 
 
@@ -37,11 +35,10 @@ limits = c(min(data$death.rate),max(data$death.rate))
 
 plot2018<-ggplot()+
   geom_polygon(data=mappingdata,aes(x=long,y=lat,group=group,fill=death.rate),color='black',alpha=.8,size=.3)+
-  scale_fill_gradient2(name="",limits=limits,low='blue',high='red')+
+  scale_fill_gradient2(name="",limits=limits,low='green',high='blue')+
   coord_map()+
-  theme_nothing(legend=T)+
+  theme_nothing(base_size=12, legend=T)+
   ggtitle("2018")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-
 
 ##Subset Year 2007
 mapping2007=oh.map.data.merge[which(oh.map.data.merge$Year==2007),]
@@ -49,7 +46,7 @@ limits2=c(min(data$death.rate),max(data$death.rate))
 
 plot2007<-ggplot()+
   geom_polygon(data=mapping2007,aes(x=long,y=lat,group=group,fill=death.rate),color='black',alpha=.8,size=.3)+
-  scale_fill_gradient2(name="",limits=limits,low='blue',high='red')+
+  scale_fill_gradient2(name="",limits=limits,low='',high='red')+
   coord_map()+
   theme_nothing(legend=T)+
   ggtitle("2007")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
@@ -65,11 +62,5 @@ plot2018+
   geom_text(aes(-84.5120,39),label="Cincinnati",color="black")+
   geom_text(aes(-81.6944,41.4),label="Cleveland",color="black")+
   geom_text(aes(-82.9988,39.85),label="Columbus",color="black")
-  
-    
-  
 
-
-  
-  
-  
+plot2007
