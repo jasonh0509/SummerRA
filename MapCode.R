@@ -63,4 +63,4 @@ plot2018+
   geom_text(aes(-81.6944,41.4),label="Cleveland",color="black")+
   geom_text(aes(-82.9988,39.85),label="Columbus",color="black")
 
-plot2007
+min(oh.map.data.merge$Year)
