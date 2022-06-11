@@ -1,4 +1,4 @@
-#### load the packages required
+in#### load the packages required
 library('rgeos')
 library('spdep')
 library('rgdal')
@@ -36,7 +36,7 @@ limits = c(min(data$death.rate),max(data$death.rate))
 
 plot2018<-ggplot()+
   geom_polygon(data=mappingdata,aes(x=long,y=lat,group=group,fill=death.rate),color='black',alpha=.8,size=.3)+
-  scale_fill_gradient2(name="",limits=limits,low='',high='blue')+
+  scale_fill_gradient2(name="",limits=limits,low='red',high='blue')+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("2018")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
