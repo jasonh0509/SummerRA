@@ -15,11 +15,13 @@ library(DT)
 data = read.csv('E:/RGithub/SummerRA/DataForJason.csv',header=TRUE)
 data$death.rate = data$Deaths/data$Population*10000
 data$FIPS = data$countyFIPS-39000
+
 Map=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
 
-Map.data=fortify(oh.map[oh.map$STATEFP=='39',],region='COUNTYFP')
-Map.data$id2=as.numeric(oh.map.data$id)
-Map.data.merge=merge(oh.map.data,data,by.x="id2",by.y="FIPS")
+Map.data=fortify(Map[Map$STATEFP=='39',],region='COUNTYFP')
+Map.data$id2=as.numeric(Map.data$id)
+Map.data.merge=merge(Map.data,data,by.x="id2",by.y="FIPS")
+mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
 
 #Appmappingdata = oh.map.data.merge[which(oh.map.data.merge$Year==2018),]
 
