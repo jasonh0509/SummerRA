@@ -11,8 +11,21 @@ library(shiny)
 library(dplyr)
 library(leaflet)
 library(DT)
+library('rgdal')
+library('rgeos')
+library('spdep')
+library('rgdal')
+library('maptools')
+library('shapefiles')
+library('ggmap')
+library('ggpubr')
+library('ggplot2')
+library('gridExtra')
+library('sf')
+library('broom')
 
-data = read.csv('E:/RGithub/SummerRA/DataForJason.csv',header=TRUE)
+
+data=read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/DataForJason.csv?token=GHSAT0AAAAAABVDRYPINSL5AVYH7HFCNTCEYVFEODA",header = TRUE)
 data$death.rate = data$Deaths/data$Population*10000
 data$FIPS = data$countyFIPS-39000
 

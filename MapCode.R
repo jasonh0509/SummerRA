@@ -13,6 +13,7 @@ library('broom')
 
 
 data = read.csv('DataForJason.csv',header=TRUE)
+dataT=read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/DataForJason.csv?token=GHSAT0AAAAAABVDRYPINSL5AVYH7HFCNTCEYVFEODA",header = TRUE)
 
 data$death.rate = data$Deaths/data$Population*10000
 data$FIPS = data$countyFIPS-39000
