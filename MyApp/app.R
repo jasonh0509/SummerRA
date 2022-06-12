@@ -36,7 +36,6 @@ Map.data$id2=as.numeric(Map.data$id)
 Map.data.merge=merge(Map.data,data,by.x="id2",by.y="FIPS")
 mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
 
-#Appmappingdata = oh.map.data.merge[which(oh.map.data.merge$Year==2018),]
 
 
 # Define UI for application that draws a histogram

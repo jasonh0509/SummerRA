@@ -37,11 +37,23 @@ limits = c(min(data$death.rate),max(data$death.rate))
 
 plot2018<-ggplot()+
   geom_polygon(data=mappingdata,aes(x=long,y=lat,group=group,fill=death.rate),color='black',alpha=.8,size=.3)+
-  scale_fill_gradient2(name="",limits=limits,low='',high='blue')+
+  #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
+  scale_fill_distiller(palette = "Spectral")+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("2018")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+plot2018
 
+
+
+plotTest<-ggplot()+
+  geom_polygon(data=mappingdata,aes(x=long,y=lat,group=group,fill=death.rate),color='white',alpha=.8,size=.3)+
+  scale_fill_gradient2(low="navy", mid="white", high="red")+
+  coord_map()+
+  theme_nothing(base_size=12, legend=T)+
+  ggtitle("2018")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+plotTest
+  
 ##Subset Year 2007
 mapping2007=oh.map.data.merge[which(oh.map.data.merge$Year==2007),]
 limits2=c(min(data$death.rate),max(data$death.rate))
