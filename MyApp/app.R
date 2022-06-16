@@ -31,10 +31,10 @@ data$FIPS = data$countyFIPS-39000
 
 Map=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
 
-Map.data=fortify(Map[Map$STATEFP=='39',],region='COUNTYFP')
-Map.data$id2=as.numeric(Map.data$id)
-Map.data.merge=merge(Map.data,data,by.x="id2",by.y="FIPS")
-mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
+Map.data=Map[Map$STATEFP=='39',]
+#Map.data$id2=as.numeric(Map.data$id)
+#Map.data.merge=merge(Map.data,data,by.x="id2",by.y="FIPS")
+#mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
 
 
 
@@ -52,7 +52,7 @@ ui <- fluidPage(
       )
     ),
     mainPanel(
-      leafletOutput(outputId = "Map")
+      leafletOutput(outputId = "Map.data")
       #dygraphOutput(outputId = "timetrend"),
       #DTOutput(outputId = "table")
     )
@@ -71,17 +71,17 @@ server <- function(input, output) {
         #hist(x, breaks = bins, col = 'darkgray', border = 'white')
     #})
   #output$table<-renderDT(AppData)
-  output$Map<-renderLeaflet({
+  output$Map.data<-renderLeaflet({
     dataFiltered<-data[which(data$Year == 2018),]
-    Counties<-match(Map@data$NAME,dataFiltered$County)
-    Map@data<-dataFiltered[Counties,]
+    Counties<-match(Map.data@data$NAME,dataFiltered$County)
+    Map.data@data<-dataFiltered[Counties,]
     
-    pal <- colorBin("YlOrRd", domain = Map$death.rate, bins = 7)
+    pal <- colorBin("YlOrRd", domain = Map.data$death.rate, bins = 7)
     
-    labels <- sprintf("%s: %g", Map$County, Map$death.rate) %>%
+    labels <- sprintf("%s: %g", Map.data$County, Map.data$death.rate) %>%
       lapply(htmltools::HTML)
     
-    l <- leaflet(Map) %>%
+    l <- leaflet(Map.data) %>%
       addTiles() %>%
       addPolygons(
         fillColor = ~ pal(death.rate),
