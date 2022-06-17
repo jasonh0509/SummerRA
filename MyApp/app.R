@@ -43,6 +43,11 @@ ui <- fluidPage(
   titlePanel(p("Spatial app", style = "color:#3474A7")),
   sidebarLayout(
     sidebarPanel(
+      selectInput(
+        inputId = "yearselected",
+        label = "Select year",
+        choices = 2007:2018
+      ),
       p("Made with", a("Shiny",
                        href = "http://shiny.rstudio.com"
       ), "."),
@@ -50,6 +55,7 @@ ui <- fluidPage(
         src = "imageShiny.png",
         width = "70px", height = "70px"
       )
+      
     ),
     mainPanel(
       leafletOutput(outputId = "Map.data")
@@ -61,20 +67,22 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-
-    #output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-       # x    <- faithful[, 2]
-       # bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        #hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    #})
+  
+  #output$distPlot <- renderPlot({
+  # generate bins based on input$bins from ui.R
+  # x    <- faithful[, 2]
+  # bins <- seq(min(x), max(x), length.out = input$bins + 1)
+  
+  # draw the histogram with the specified number of bins
+  #hist(x, breaks = bins, col = 'darkgray', border = 'white')
+  #})
   #output$table<-renderDT(AppData)
   output$Map.data<-renderLeaflet({
-    dataFiltered<-data[which(data$Year == 2018),]
+    dataFiltered<-data[which(data$Year == input$yearselected),]
     Counties<-match(Map.data@data$NAME,dataFiltered$County)
     Map.data@data<-dataFiltered[Counties,]
+    
+    
     
     pal <- colorBin("YlOrRd", domain = Map.data$death.rate, bins = 7)
     
@@ -95,11 +103,11 @@ server <- function(input, output) {
         opacity = 0.7, title = NULL
       )
   })
-    
-
   
   
- 
+  
+  
+  
   
   
 }
