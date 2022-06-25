@@ -16,18 +16,18 @@ data=read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/DataFo
 nationaldata<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Death%20Rate%20All%20counties.csv")
 
 
-national_rate<-nationaldata$Crude.Rate
-data$FIPS = data$countyFIPS-39000
+#national_rate$national_rate=nationaldata$Crude.Rate
+#data$FIPS = data$countyFIPS-39000
 
 
 #Read in Ohio county shape file
 #get shapes
-oh.map=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
+mapfile=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
 
 #convert to data frame
-usa.map.data=fortify(oh.map,region='COUNTYFP')
+usa.map.data=fortify(mapfile,region='COUNTYFP')
 usa.map.data$id2=as.numeric(usa.map.data$id)
-usa.map.data.merge=merge(usa.map.data,nationalRate)
+#usa.map.data.merge=merge(usa.map.data,nationaldata)
 
 
 ##subseting year 2018

@@ -40,13 +40,18 @@ Map.data=Map[Map$STATEFP=='39',]
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-  titlePanel(p("Spatial app", style = "color:#3474A7")),
+  titlePanel(p("Opioid Relatead Death Rate", style = "color:#3474A7")),
   sidebarLayout(
     sidebarPanel(
       selectInput(
         inputId = "yearselected",
         label = "Select year",
         choices = 2007:2018
+      ),
+      selectInput(
+        inputId = "Stateselected",
+        label  = "Select Sate",
+        choices = c("Alabama", "Alaska", "American Samoa", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Guam", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Minor Outlying Islands", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "U.S. Virgin Islands", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming")
       ),
       p("Made with", a("Shiny",
                        href = "http://shiny.rstudio.com"
