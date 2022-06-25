@@ -23,11 +23,13 @@ library('ggplot2')
 library('gridExtra')
 library('sf')
 library('broom')
+library(maps)
 
 
 data=read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/DataForJason.csv?token=GHSAT0AAAAAABVDRYPINSL5AVYH7HFCNTCEYVFEODA",header = TRUE)
 data$death.rate = data$Deaths/data$Population*10000
 data$FIPS = data$countyFIPS-39000
+data("county.fips")
 
 Map=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
 
@@ -36,7 +38,8 @@ Map.data=Map[Map$STATEFP=='39',]
 #Map.data.merge=merge(Map.data,data,by.x="id2",by.y="FIPS")
 #mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
 
-
+pngfile<-"https://raw.githubusercontent.com/jasonh0509/SummerRA/blob/main/images.png"
+toload<-readPNG("images.png")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -57,7 +60,7 @@ ui <- fluidPage(
                        href = "http://shiny.rstudio.com"
       ), "."),
       img(
-        src = "imageShiny.png",
+        src = "https://www.analyticsvidhya.com/wp-content/uploads/2016/10/shiny.png",
         width = "70px", height = "70px"
       )
       
@@ -72,6 +75,10 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
+  output$img<-renderUI({
+    tags$img(scr = "https://www.analyticsvidhya.com/wp-content/uploads/2016/10/shiny.png")
+    
+  })
   
   #output$distPlot <- renderPlot({
   # generate bins based on input$bins from ui.R
