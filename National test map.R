@@ -13,10 +13,10 @@ library('broom')
 
 
 data=read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/DataForJason.csv?token=GHSAT0AAAAAABVDRYPINSL5AVYH7HFCNTCEYVFEODA",header = TRUE)
-nationalRate<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Number%20and%20age-adjusted%20rates%20of%20drug%20overdose%20deaths%20by%20state%2C%20US%202019.csv")
+nationaldata<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Death%20Rate%20All%20counties.csv")
 
 
-data$death.rate = data$Deaths/data$Population*10000
+national_rate<-nationaldata$Crude.Rate
 data$FIPS = data$countyFIPS-39000
 
 
