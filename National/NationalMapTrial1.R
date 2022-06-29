@@ -40,6 +40,9 @@ mapfileNC=Map[Map$STATEFP=='37',]
 #Map.data.merge=merge(Map.data,data,by.x="id2",by.y="FIPS")
 #mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
 
+#ncMerged<-merge(mapfileNC,ncData,by="FIPS")
+
+
 pngfile<-"https://raw.githubusercontent.com/jasonh0509/SummerRA/blob/main/images.png"
 #toload<-readPNG("images.png")
 
@@ -89,7 +92,7 @@ server <- function(input, output) {
   #output$table<-renderDT(AppData)
   output$mapfileNC<-renderLeaflet({
     dataFiltered<-ncData[which(ncData$Year == "2018"),]
-    Counties<-match(mapfileNC@ncData$NAME,dataFiltered$County)#ERROR IS HERE!!!!!!!!!!
+    Counties<-match(mapfileNC@ncData$NAME,dataFiltered$County)#ERROR IS HERE!!!!!!!!!
     mapfileNC@ncData<-dataFiltered[Counties,]
     
     
