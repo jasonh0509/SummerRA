@@ -38,8 +38,7 @@ Map.data=Map[Map$STATEFP=='39',]
 #Map.data.merge=merge(Map.data,data,by.x="id2",by.y="FIPS")
 #mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
 
-pngfile<-"https://raw.githubusercontent.com/jasonh0509/SummerRA/blob/main/images.png"
-toload<-readPNG("images.png")
+
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(

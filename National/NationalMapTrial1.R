@@ -35,12 +35,14 @@ ncData$County.Code=ncData$County.Code-37000
 
 mapfile=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
 
-mapfileNC=Map[Map$STATEFP=='37',]
+mapfileNC=mapfile[mapfile$STATEFP=='37',]
+ncData<-rename(ncData,COUNTYFP=County.Code)
+  
 #Map.data$id2=as.numeric(Map.data$id)
 #Map.data.merge=merge(Map.data,data,by.x="id2",by.y="FIPS")
 #mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
 
-#ncMerged<-merge(mapfileNC,ncData,by="FIPS")
+ncMerged<-merge(mapfileNC,ncData,by="COUNTYFP")
 
 
 pngfile<-"https://raw.githubusercontent.com/jasonh0509/SummerRA/blob/main/images.png"
@@ -128,3 +130,4 @@ server <- function(input, output) {
 # Run the application 
 
 shinyApp(ui = ui, server = server)
+
