@@ -15,4 +15,4 @@ sum(is.na(ncGrandData))
 
 sum(ncGrandData$Year=="1999")
 
-table(ncGrandData$Place$Year)
+dataAlamance<-subset(ncGrandData,Place=="Alamance")
