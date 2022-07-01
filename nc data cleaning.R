@@ -16,3 +16,12 @@ sum(is.na(ncGrandData))
 sum(ncGrandData$Year=="1999")
 
 dataAlamance<-subset(ncGrandData,Place=="Alamance")
+
+##Mutate to numeric
+dataAlamance["rate_mult"][dataAlamance["rate_mult"]=="100,000"]<-"100000"
+ncGrandData["rate_mult"][ncGrandData["rate_mult"]=="100,000"]<-"100000"
+
+ncGrandData$rate_mult<-as.numeric(ncGrandData$rate_mult)
+##Count rate numi
+sum(dataAlamance$rate_mult=="	
+100000")
