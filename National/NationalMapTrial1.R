@@ -34,24 +34,18 @@ ncData<-subset(ncData,select = c(County,Year,County.Code,Population,Deaths,Crude
 ncData$FIPS=ncData$County.Code-37000
 
 
-mapfile=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
+MapTotal=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
 
-mapfileNC=mapfile[mapfile$STATEFP=='37',]
-#ncData<-rename(ncData,FIPS=COUNTYFP)
-  
+Map.nc=Map[Map$STATEFP=='37',]
 #Map.data$id2=as.numeric(Map.data$id)
 #Map.data.merge=merge(Map.data,data,by.x="id2",by.y="FIPS")
 #mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
 
-#ncMerged<-merge(mapfileNC,ncData,by="COUNTYFP")
 
-
-pngfile<-"https://raw.githubusercontent.com/jasonh0509/SummerRA/blob/main/images.png"
-#toload<-readPNG("images.png")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-  titlePanel(p("Opioid Relatead Death Rate NC", style = "color:#3474A7")),
+  titlePanel(p("Opioid Relatead Death Rate", style = "color:#3474A7")),
   sidebarLayout(
     sidebarPanel(
       selectInput(
@@ -59,7 +53,11 @@ ui <- fluidPage(
         label = "Select year",
         choices = 2007:2018
       ),
-      
+      #selectInput(
+      #inputId = "Stateselected",
+      # label  = "Select Sate",
+      # choices = c("Alabama", "Alaska", "American Samoa", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Guam", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Minor Outlying Islands", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "U.S. Virgin Islands", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming")
+      #),
       p("Made with", a("Shiny",
                        href = "http://shiny.rstudio.com"
       ), "."),
@@ -69,9 +67,8 @@ ui <- fluidPage(
       )
       
     ),
-    
     mainPanel(
-      leafletOutput(outputId = "mapfileNC")
+      leafletOutput(outputId = "Map.nc")
       #dygraphOutput(outputId = "timetrend"),
       #DTOutput(outputId = "table")
     )
@@ -94,19 +91,19 @@ server <- function(input, output) {
   #hist(x, breaks = bins, col = 'darkgray', border = 'white')
   #})
   #output$table<-renderDT(AppData)
-  output$mapfileNC<-renderLeaflet({
+  output$Map.nc<-renderLeaflet({
     dataFiltered<-ncData[which(ncData$Year == input$yearselected),]
-    Counties<-match(mapfileNC@ncData$NAME,dataFiltered$County)#ERROR IS HERE!!!!!!!!!
-    mapfileNC@ncData<-dataFiltered[Counties,]
+    Counties<-match(Map.nc@ncData$NAME,dataFiltered$County)
+    Map.nc@data<-dataFiltered[Counties,]
     
     
     
-    pal <- colorBin("YlOrRd", domain = mapfileNC$Crude.Rate, bins = 7)
+    pal <- colorBin("YlOrRd", domain = Map.nc$Crude.Rate, bins = 7)
     
-    labels <- sprintf("%s: %g", mapfileNC$County, mapfileNC$Crude.Rate) %>%
+    labels <- sprintf("%s: %g", Map.nc$County, Map.nc$Crude.Rate) %>%
       lapply(htmltools::HTML)
     
-    l <- leaflet(mapfileNC) %>%
+    l <- leaflet(Map.nc) %>%
       addTiles() %>%
       addPolygons(
         fillColor = ~ pal(Crude.Rate),
@@ -132,4 +129,3 @@ server <- function(input, output) {
 # Run the application 
 
 shinyApp(ui = ui, server = server)
-
