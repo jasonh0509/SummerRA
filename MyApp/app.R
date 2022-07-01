@@ -29,7 +29,6 @@ library(maps)
 data=read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/DataForJason.csv?token=GHSAT0AAAAAABVDRYPINSL5AVYH7HFCNTCEYVFEODA",header = TRUE)
 data$death.rate = data$Deaths/data$Population*10000
 data$FIPS = data$countyFIPS-39000
-data("county.fips")
 
 Map=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
 
@@ -50,11 +49,11 @@ ui <- fluidPage(
         label = "Select year",
         choices = 2007:2018
       ),
-      selectInput(
-        inputId = "Stateselected",
-        label  = "Select Sate",
-        choices = c("Alabama", "Alaska", "American Samoa", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Guam", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Minor Outlying Islands", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "U.S. Virgin Islands", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming")
-      ),
+      #selectInput(
+        #inputId = "Stateselected",
+       # label  = "Select Sate",
+       # choices = c("Alabama", "Alaska", "American Samoa", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Guam", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Minor Outlying Islands", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "U.S. Virgin Islands", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming")
+      #),
       p("Made with", a("Shiny",
                        href = "http://shiny.rstudio.com"
       ), "."),

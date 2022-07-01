@@ -30,19 +30,20 @@ library(png)
 data=read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/DataForJason.csv?token=GHSAT0AAAAAABVDRYPINSL5AVYH7HFCNTCEYVFEODA",header = TRUE)
 nationaldata<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Death%20Rate%20All%20counties.csv")
 ncData<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/NC%20data.csv")
-ncData$County.Code=ncData$County.Code-37000
+ncData<-subset(ncData,select = c(County,Year,County.Code,Population,Deaths,Crude.Rate))
+ncData$FIPS=ncData$County.Code-37000
 
 
 mapfile=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
 
 mapfileNC=mapfile[mapfile$STATEFP=='37',]
-ncData<-rename(ncData,COUNTYFP=County.Code)
+#ncData<-rename(ncData,FIPS=COUNTYFP)
   
 #Map.data$id2=as.numeric(Map.data$id)
 #Map.data.merge=merge(Map.data,data,by.x="id2",by.y="FIPS")
 #mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
 
-ncMerged<-merge(mapfileNC,ncData,by="COUNTYFP")
+#ncMerged<-merge(mapfileNC,ncData,by="COUNTYFP")
 
 
 pngfile<-"https://raw.githubusercontent.com/jasonh0509/SummerRA/blob/main/images.png"
@@ -68,6 +69,7 @@ ui <- fluidPage(
       )
       
     ),
+    
     mainPanel(
       leafletOutput(outputId = "mapfileNC")
       #dygraphOutput(outputId = "timetrend"),
@@ -93,7 +95,7 @@ server <- function(input, output) {
   #})
   #output$table<-renderDT(AppData)
   output$mapfileNC<-renderLeaflet({
-    dataFiltered<-ncData[which(ncData$Year == "2018"),]
+    dataFiltered<-ncData[which(ncData$Year == input$yearselected),]
     Counties<-match(mapfileNC@ncData$NAME,dataFiltered$County)#ERROR IS HERE!!!!!!!!!
     mapfileNC@ncData<-dataFiltered[Counties,]
     
