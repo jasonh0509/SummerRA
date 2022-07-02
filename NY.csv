@@ -1,5 +1,5 @@
 Year,County,CountyName,countyFIPS,Deaths,Population,CrudeRate
-2007,Albany,Albany,36001,2666,303858,877.4
+2007,Albany ,Albany,36001,2666,303858,877.4
 2007,Allegany ,Allegany,36003,478,49079,973.9
 2007,Bronx ,Bronx,36005,9174,1354056,677.5
 2007,Broome ,Broome,36007,2057,200877,1024
