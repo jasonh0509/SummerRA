@@ -28,6 +28,7 @@ library(maps)
 
 data=read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/NYnospace.csv",header = TRUE)
 data<-subset(data,select = c(CountyName,Year,countyFIPS,Population,Deaths))
+#
 data$death.rate = data$Deaths/data$Population*100
 data$FIPS = data$countyFIPS-36000
 
