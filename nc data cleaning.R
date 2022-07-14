@@ -25,3 +25,9 @@ ncGrandData$rate_mult<-as.numeric(ncGrandData$rate_mult)
 ##Count rate numi
 sum(dataAlamance$rate_mult=="	
 100000")
+
+ncfilter1<-ncGrandData%>%
+  subset(ncGrandData$Place.Type=="Counties")
+
+
+Forsyth1999<-subset(ncNo_LHD,Place=="Forsyth"&Year==1999)
