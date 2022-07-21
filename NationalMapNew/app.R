@@ -36,13 +36,13 @@ data$death.rate = data$Deaths/data$Population*100
 #data$FIPS = data$countyFIPS-36000
 
 Map=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
-map.data = fortify(Map,region='COUNTYFP')
+map.data = fortify(Map,region='GEOID')
 
 
 #oh.map.data=fortify(,region='COUNTYFP')
 
 map.data$id2=as.numeric(map.data$id)
-Map.data.merge=merge(data,map.data,by.x="id2",by.y="County.Code")
+Map.data.merge=merge(data,map.data,by.x="FIPS",by.y="id2")
 
 #mappingdata = Map.data.merge[which(Map.data.merge$Year==2018),]
 
