@@ -2,6 +2,7 @@
 library(ggplot2)
 library(broom)
 library(dplyr)
+library(tidyverse)
 
 ## Read in Data
 ncGrandData<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/ncBigdata.csv")
@@ -28,6 +29,16 @@ sum(dataAlamance$rate_mult=="
 
 ncfilter1<-ncGrandData%>%
   subset(ncGrandData$Place.Type=="Counties")
+ 
+
+ncfilter1<-subset(ncfilter1,select=c(Measure,Place,Place.Type,Geoid,Value.Count))
 
 
-Forsyth1999<-subset(ncNo_LHD,Place=="Forsyth"&Year==1999)
+
+valueC<-subset(ncfilter1,select = Value.Count)
+valueC<-valueC%>%
+  mutate(Value.Count=as.double(Value.Count))
+ncfilter1
+
+ncfilter2<-ncfilter1%>%
+  pivot_wider(names_from = Measure,values_from = Value.Count)
