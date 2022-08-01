@@ -24,7 +24,7 @@ NA2020<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Min
 totaldataAIAN<-rbind(NA2010,NA2015,NA2020)
 
 totaldataAIAN<-totaldataAIAN%>%
-  mutate(Value.Rate=log(Value.Rate))
+  mutate(Value.Rate=log(Value.Rate+1))
 
 #sum(is.na(NA2010$Value.Count))
 
@@ -91,7 +91,7 @@ totaldataAsian<-rbind(Asian2010,Asian2015,Asian2020)
 totaldataAsian<-totaldataAsian%>%
   mutate(Rate.Denom=gsub(",","",Rate.Denom),
          Rate.Denom=as.numeric(Rate.Denom),
-         Value.Rate=log(Value.Rate))
+         Value.Rate=log(Value.Rate+1))
 
 #Asian Merge and map file
 
@@ -153,7 +153,7 @@ totaldataHisp<-rbind(Hisp2010,Hisp2015,Hisp2020)
 totaldataHisp<-totaldataHisp%>%
   mutate(Rate.Denom=gsub(",","",Rate.Denom),
          Rate.Denom=as.numeric(Rate.Denom),
-         Value.Rate=log(Value.Rate))
+         Value.Rate=log(Value.Rate+1))
 
 graphtotalHisp<-subset(totaldataHisp,select = c(Place,Year,Geoid,Rate.Denom,Value.Count,Value.Rate))
 graphtotalHisp$FIPS=graphtotalHisp$Geoid-37000
@@ -207,7 +207,7 @@ totaldatablk<-rbind(Black2010,Black2015,Black2020)
 totaldatablk<-totaldatablk%>%
   mutate(Rate.Denom=gsub(",","",Rate.Denom),
          Rate.Denom=as.numeric(Rate.Denom),
-         Value.Rate=log(Value.Rate))
+         Value.Rate=log(Value.Rate+1))
 
 graphtotalblk<-subset(totaldatablk,select = c(Place,Year,Geoid,Rate.Denom,Value.Count,Value.Rate))
 graphtotalblk$FIPS=graphtotalblk$Geoid-37000
@@ -260,7 +260,7 @@ totoalDataWhite<-rbind(White2010,White2015,White2020)
 totoalDataWhite<-totoalDataWhite%>%
   mutate(Rate.Denom=gsub(",","",Rate.Denom),
          Rate.Denom=as.numeric(Rate.Denom),
-         Value.Rate=log(Value.Rate))
+         Value.Rate=log(Value.Rate+1))
 
 graphtotalwhite<-subset(totoalDataWhite,select = c(Place,Year,Geoid,Rate.Denom,Value.Count,Value.Rate))
 graphtotalwhite$FIPS=graphtotalwhite$Geoid-37000
