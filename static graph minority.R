@@ -23,6 +23,9 @@ NA2020<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Min
 
 totaldataAIAN<-rbind(NA2010,NA2015,NA2020)
 
+totaldataAIAN<-totaldataAIAN%>%
+  mutate(Value.Rate=log(Value.Rate))
+
 #sum(is.na(NA2010$Value.Count))
 
 graphtotal<-subset(totaldataAIAN,select = c(Place,Year,Geoid,Rate.Denom,Value.Count,Value.Rate))
@@ -48,10 +51,11 @@ mapping2020<-ncMap.merge[which(ncMap.merge$Year==2020),]
 AIANplot2010<-ggplot()+
   geom_polygon(data=mapping2010,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
   #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
-  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",)+
+  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits = c(0,6),
+                      breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("AI/AN Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("AI/AN Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 
 AIANplot2010
 
@@ -61,7 +65,7 @@ AIANplot2015<-ggplot()+
   scale_fill_gradient(low="#FFFFFF",high = "#8b0000",)+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("AI/AN Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("AI/AN Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 #AIANplot2015
 
 
@@ -71,10 +75,9 @@ AIANplot2020<-ggplot()+
   scale_fill_gradient(low="#FFFFFF",high = "#8b0000",)+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("AI/AN Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("AI/AN Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 #AIANplot2020
 
-AIANplot2010
 
 AIANgraph<-grid.arrange(AIANplot2010,AIANplot2015,AIANplot2020,nrow=3)
 
@@ -114,7 +117,7 @@ Asianplot2010<-ggplot()+
                       breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Asian Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Asian Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 Asianplot2010
 
 Asianplot2015<-ggplot()+
@@ -124,7 +127,7 @@ Asianplot2015<-ggplot()+
                        breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Asian Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Asian Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 Asianplot2015
 
 Asianplot2020<-ggplot()+
@@ -134,7 +137,7 @@ Asianplot2020<-ggplot()+
                        breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Asian Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.5)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Asian Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.5)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 Asianplot2020
 
 AsianGraph<-grid.arrange(Asianplot2010,Asianplot2015,Asianplot2020,ncol=3)
@@ -168,7 +171,7 @@ Hispplot2010<-ggplot()+
                       breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Hispanic Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Hispanic Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 Hispplot2010
 
 Hispplot2015<-ggplot()+
@@ -178,7 +181,7 @@ Hispplot2015<-ggplot()+
                       breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Hispanic Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Hispanic Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 Hispplot2015
 
 Hispplot2020<-ggplot()+
@@ -188,7 +191,7 @@ Hispplot2020<-ggplot()+
                       breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Hispanic Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Hispanic Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 Hispplot2020
 
 grid.arrange(Hispplot2010,Hispplot2015,Hispplot2020,nrow=2,ncol=2)
@@ -222,7 +225,7 @@ Blackplot2010<-ggplot()+
                       breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Black Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Black Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 Blackplot2010
 
 Blackplot2015<-ggplot()+
@@ -232,7 +235,7 @@ Blackplot2015<-ggplot()+
                       breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Black Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Black Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 Blackplot2015
 
 Blackplot2020<-ggplot()+
@@ -242,7 +245,7 @@ Blackplot2020<-ggplot()+
                       breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Black Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Black Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 Blackplot2020
 
 ##White Data
@@ -251,3 +254,80 @@ White2010<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/
 White2015<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/White2015.csv")
 White2020<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/White2020.csv")
 
+totoalDataWhite<-rbind(White2010,White2015,White2020)
+
+#Rate.de<-subset(totaldataAsian,select = Rate.Denom)
+totoalDataWhite<-totoalDataWhite%>%
+  mutate(Rate.Denom=gsub(",","",Rate.Denom),
+         Rate.Denom=as.numeric(Rate.Denom),
+         Value.Rate=log(Value.Rate))
+
+graphtotalwhite<-subset(totoalDataWhite,select = c(Place,Year,Geoid,Rate.Denom,Value.Count,Value.Rate))
+graphtotalwhite$FIPS=graphtotalwhite$Geoid-37000
+
+ncMap.mergewhite<-merge(ncMap,graphtotalwhite,by.x="id2",by.y="FIPS")
+
+whitemapping2010<-ncMap.mergewhite[which(ncMap.mergewhite$Year==2010),]
+whitemapping2015<-ncMap.mergewhite[which(ncMap.mergewhite$Year==2015),]
+whitemapping2020<-ncMap.mergewhite[which(ncMap.mergewhite$Year==2020),]
+
+#White Maps
+Whiteplot2010<-ggplot()+
+  geom_polygon(data=whitemapping2010,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
+  #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
+  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits = c(0,10),
+                      breaks = c(0,3,6))+
+  coord_map()+
+  theme_nothing(base_size=12, legend=T)+
+  ggtitle("White Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+Whiteplot2010
+
+Whiteplot2015<-ggplot()+
+  geom_polygon(data=whitemapping2015,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
+  #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
+  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits = c(0,6),
+                      breaks = c(0,3,6))+
+  coord_map()+
+  theme_nothing(base_size=12, legend=T)+
+  ggtitle("White Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+Whiteplot2015
+
+Whiteplot2020<-ggplot()+
+  geom_polygon(data=whitemapping2020,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
+  #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
+  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits = c(0,6),
+                      breaks = c(0,3,6))+
+  coord_map()+
+  theme_nothing(base_size=12, legend=T)+
+  ggtitle("White Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+Whiteplot2020
+
+
+
+#Calling All Graphs
+
+AIANplot2010
+
+AIANplot2015
+
+AIANplot2020
+
+Asianplot2010
+
+Asianplot2015
+
+Asianplot2020
+
+Blackplot2010
+
+Blackplot2015
+
+Blackplot2020
+
+Hispplot2010
+Hispplot2015
+Hispplot2020
+
+Whiteplot2010
+Whiteplot2015
+Whiteplot2020
