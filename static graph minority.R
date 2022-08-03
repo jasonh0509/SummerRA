@@ -14,14 +14,19 @@ library(dplyr)
 
 #Load big shape file
 mapG=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
+ncMap=fortify(mapG[mapG$STATEFP=='37',],region='COUNTYFP')
+ncMap$id2=as.numeric(ncMap$id)
 
 #AI/AN Data
-
 NA2010<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Minority2010.csv")
 NA2015<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Minority2015.csv")
 NA2020<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Minority2020.csv")
 
 totaldataAIAN<-rbind(NA2010,NA2015,NA2020)
+
+
+
+
 
 totaldataAIAN<-totaldataAIAN%>%
   mutate(Value.Rate=log(Value.Rate+1))
@@ -62,21 +67,23 @@ AIANplot2010
 AIANplot2015<-ggplot()+
   geom_polygon(data=mapping2015,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
   #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
-  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",)+
+  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits = c(0,6),
+                      breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("AI/AN Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-#AIANplot2015
+AIANplot2015
 
 
 AIANplot2020<-ggplot()+
   geom_polygon(data=mapping2020,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
   #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
-  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",)+
+  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits = c(0,6),
+                      breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("AI/AN Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-#AIANplot2020
+AIANplot2020
 
 
 AIANgraph<-grid.arrange(AIANplot2010,AIANplot2015,AIANplot2020,nrow=3)
@@ -137,7 +144,7 @@ Asianplot2020<-ggplot()+
                        breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Asian Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.5)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Asian Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 Asianplot2020
 
 AsianGraph<-grid.arrange(Asianplot2010,Asianplot2015,Asianplot2020,ncol=3)
@@ -275,7 +282,7 @@ whitemapping2020<-ncMap.mergewhite[which(ncMap.mergewhite$Year==2020),]
 Whiteplot2010<-ggplot()+
   geom_polygon(data=whitemapping2010,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
   #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
-  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits = c(0,10),
+  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits = c(0,6),
                       breaks = c(0,3,6))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
@@ -307,21 +314,15 @@ Whiteplot2020
 #Calling All Graphs
 
 AIANplot2010
-
 AIANplot2015
-
 AIANplot2020
 
 Asianplot2010
-
 Asianplot2015
-
 Asianplot2020
 
 Blackplot2010
-
 Blackplot2015
-
 Blackplot2020
 
 Hispplot2010
@@ -331,3 +332,9 @@ Hispplot2020
 Whiteplot2010
 Whiteplot2015
 Whiteplot2020
+
+
+##Raw map
+
+RawTotalAIAN<-rbind(NA2010,NA2015,NA2020)
+
