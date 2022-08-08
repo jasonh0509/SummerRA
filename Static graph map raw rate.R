@@ -224,7 +224,7 @@ Blackplot2015.Raw<-ggplot()+
                       breaks=c(0,170,340))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
-  ggtitle("Black Raw Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+  ggtitle("Black Raw Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
 ggsave(path = "C:/RGit/SummerRA/Raw Map","RawBlackplot2015.png",width = 7, height =7)
 
 Blackplot2020.Raw<-ggplot()+
