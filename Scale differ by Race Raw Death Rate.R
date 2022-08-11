@@ -17,13 +17,7 @@ ncMap=fortify(mapG[mapG$STATEFP=='37',],region='COUNTYFP')
 ncMap$id2=as.numeric(ncMap$id)
 
 #AI/AN Data
-NA2010<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Minority2010.csv")
-NA2015<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Minority2015.csv")
-NA2020<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Minority2020.csv")
-
-totaldataAIAN<-rbind(NA2010,NA2015,NA2020)
-#totaldataAIAN<-totaldataAIAN%>%
-#  mutate(Value.Rate=((Value.Rate)))
+totaldataAIAN<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/NC%20AIAN.csv")
 
 
 graphtotal<-subset(totaldataAIAN,select = c(Place,Year,Geoid,Rate.Denom,Value.Count,Value.Rate))
@@ -44,44 +38,40 @@ Rawmapping2015<-ncMap.merge[which(ncMap.merge$Year==2015),]
 #2020 data
 Rawmapping2020<-ncMap.merge[which(ncMap.merge$Year==2020),]
 
-#limits = c(min(NA2010$Value.Rate),max(NA2010$Value.Rate))
 
 RawAIANplot2010<-ggplot()+
   geom_polygon(data=Rawmapping2010,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
   #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
-  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits=c(0,334),
-                      breaks=c(0,172,334))+
+  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits=c(0,204),
+                      breaks=c(0,102,204))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("AI/AN Raw Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","AIANplotRaw2010.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","AIANplotRaw2010.png",width = 7, height =7)
 
 RawAIANplot2015<-ggplot()+
   geom_polygon(data=Rawmapping2015,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
   #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
-  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits=c(0,334),
-                      breaks=c(0,172,334))+
+  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits=c(0,204),
+                      breaks=c(0,102,204))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("AI/AN Raw Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","AIANplotRaw2015.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","AIANplotRaw2015.png",width = 7, height =7)
 
 
 
 RawAIANplot2020<-ggplot()+
   geom_polygon(data=Rawmapping2020,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
   #scale_fill_gradient2(name="",limits=limits,low="navy", mid="white", high="red")+
-  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits=c(0,334),
-                      breaks=c(0,172,334))+
+  scale_fill_gradient(low="#FFFFFF",high = "#8b0000",limits=c(0,204),
+                      breaks=c(0,102,204))+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("AI/AN Raw Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","AIANplotRaw2020.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","AIANplotRaw2020.png",width = 7, height =7)
 
 
-RawAIANplot2010
-RawAIANplot2015
-RawAIANplot2020
 
 ##Asian Map
 
@@ -91,7 +81,6 @@ Asian2015Raw<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/ma
 Asian2020Raw<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Asian2020.csv")
 
 RawtotaldataAsian<-rbind(Asian2010Raw,Asian2015Raw,Asian2020Raw)
-#Rate.de<-subset(totaldataAsian,select = Rate.Denom)
 
 
 #Asian Merge and map file
@@ -113,9 +102,9 @@ Asianplot2010.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("Asian Raw Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawAsianplot2010.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawAsianplot2010.png",width = 7, height =7)
 
-#Asianplot2010.Raw
+
 
 Asianplot2015.Raw<-ggplot()+
   geom_polygon(data=Asianmapping2015.Raw,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
@@ -125,7 +114,7 @@ Asianplot2015.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("Asian Raw Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawAsianplot2015.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawAsianplot2015.png",width = 7, height =7)
 
 Asianplot2020.Raw<-ggplot()+
   geom_polygon(data=Asianmapping2020.Raw,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
@@ -135,7 +124,7 @@ Asianplot2020.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("Asian Raw Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawAsianplot2020.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawAsianplot2020.png",width = 7, height =7)
 
 ##Hispanic
 
@@ -163,9 +152,9 @@ Hispplot2010.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("Hispanic Raw Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawHispanicplot2010.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawHispanicplot2010.png",width = 7, height =7)
 
-#Hispplot2010.Raw
+
 
 Hispplot2015.Raw<-ggplot()+
   geom_polygon(data=Hispmapping2015.Raw,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
@@ -175,7 +164,7 @@ Hispplot2015.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("Hispanic Raw Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawHispanicplot2015.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawHispanicplot2015.png",width = 7, height =7)
 
 
 Hispplot2020.Raw<-ggplot()+
@@ -186,7 +175,7 @@ Hispplot2020.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("Hispanic Raw Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawHispanicplot2020.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawHispanicplot2020.png",width = 7, height =7)
 
 
 ##Black Data
@@ -215,7 +204,7 @@ Blackplot2010.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("Black Raw Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawBlackplot2010.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawBlackplot2010.png",width = 7, height =7)
 
 Blackplot2015.Raw<-ggplot()+
   geom_polygon(data=Blackmapping2015.Raw,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
@@ -225,7 +214,7 @@ Blackplot2015.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("Black Raw Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawBlackplot2015.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawBlackplot2015.png",width = 7, height =7)
 ##
 Blackplot2020.Raw<-ggplot()+
   geom_polygon(data=Blackmapping2020.Raw,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
@@ -235,7 +224,7 @@ Blackplot2020.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("Black Raw Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawBlackplot2020.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawBlackplot2020.png",width = 7, height =7)
 
 ##White Data
 
@@ -264,7 +253,7 @@ Whiteplot2010.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("White Raw Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawWhiteplot2010.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawWhiteplot2010.png",width = 7, height =7)
 
 Whiteplot2015.Raw<-ggplot()+
   geom_polygon(data=Whitemapping2015.Raw,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
@@ -274,7 +263,7 @@ Whiteplot2015.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("White Raw Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawWhiteplot2015.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawWhiteplot2015.png",width = 7, height =7)
 
 Whiteplot2020.Raw<-ggplot()+
   geom_polygon(data=Whitemapping2020.Raw,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
@@ -284,4 +273,63 @@ Whiteplot2020.Raw<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("White Raw Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawWhiteplot2020.png",width = 7, height =7)
+#ggsave(path = "C:/RGit/SummerRA/Raw Map Scale Different by Race","RawWhiteplot2020.png",width = 7, height =7)
+
+NameList <- list(
+  AIAN_data=totaldataAIAN,
+  Asian_data=RawtotaldataAsian,
+  Black_data=totaldatablk,
+  Hispanic_data=totaldatablk,
+  White_data=totalDataWhite
+)
+for(i in names(NameList)){
+  write.csv(NameList[[i]], paste0(i,".csv"))
+}
+
+SelectedFileList<-list(
+  AIAN_selected=graphtotal,
+  Asian_selected=RawtotaldataAsian,
+  Black_selected=graphtotalBlack.Raw,
+  Hispanic_selected=totaldataHisp.Raw,
+  White_selected=graphtotalWhite.Raw
+)
+
+for(i in names(SelectedFileList)){
+  write.csv(SelectedFileList[[i]], paste0(i,".csv"))
+}
+
+CombinedFileList<-list(
+  AIAN_mapCombined=ncMap.merge,
+  Asian_mapCombined=ncMap.mergeAsianRaw,
+  Black_mapCombined=ncMap.mergeBlack.raw,
+  Hispanic_mapCombined=ncMap.mergeHisp.raw,
+  White_mapCombined=ncMap.mergeWhite.raw
+)
+
+for(i in names(CombinedFileList)){
+  write.csv(CombinedFileList[[i]], paste0(i,".csv"))
+}
+
+FinalData_used_for_drawing<-list(
+  AIAN_mapping2010=Rawmapping2010,
+  AIAN_mapping2015=Rawmapping2015,
+  AIAN_mapping2020=Rawmapping2020,
+  Whitemapping2010.Raw=Whitemapping2010.Raw,
+  Whitemapping2015.Raw=Whitemapping2015.Raw,
+  Whitemapping2020.Raw=Whitemapping2020.Raw,
+  Asianmapping2010.Raw=Asianmapping2010.Raw,
+  Asianmapping2015.Raw=Asianmapping2015.Raw,
+  Asianmapping2020.Raw=Asianmapping2020.Raw,
+  Hispmapping2010.Raw=Hispmapping2010.Raw,
+  Hispmapping2015.Raw=Hispmapping2015.Raw,
+  Hispmapping2020.Raw=Hispmapping2020.Raw,
+  Blackmapping2010.Raw=Blackmapping2010.Raw,
+  Blackmapping2015.Raw=Blackmapping2015.Raw,
+  Blackmapping2020.Raw=Blackmapping2020.Raw
+  
+  
+)
+for(i in names(FinalData_used_for_drawing)){
+  write.csv(FinalData_used_for_drawing[[i]], paste0(i,".csv"))
+}
+
