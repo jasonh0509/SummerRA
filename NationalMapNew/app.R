@@ -52,7 +52,7 @@ Map.data.merge=merge(data,map.data,by.x="FIPS",by.y="id2")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-  titlePanel(p("Opioid Relatead Death Rate", style = "color:#3474A7")),
+  titlePanel(p("Opioid Related Death Rate", style = "color:#3474A7")),
   sidebarLayout(
     sidebarPanel(
       selectInput(

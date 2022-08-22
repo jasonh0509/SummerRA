@@ -13,16 +13,13 @@ library('broom')
 library(dplyr)
 
 #Load big shape file
-mapG=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
+mapG=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')## To run this file you need to download the shape file and have the shape file folder in your working directory
 ncMap=fortify(mapG[mapG$STATEFP=='37',],region='COUNTYFP')
 ncMap$id2=as.numeric(ncMap$id)
 
 #AI/AN Data
-NA2010<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Minority2010.csv")
-NA2015<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Minority2015.csv")
-NA2020<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/Minority2020.csv")
+totaldataAIAN<-read.csv("https://raw.githubusercontent.com/jasonh0509/SummerRA/main/NC%20AIAN.csv")
 
-totaldataAIAN<-rbind(NA2010,NA2015,NA2020)
 
 
 
@@ -61,8 +58,10 @@ AIANplot2010<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("AI/AN Death Rate Map 2010")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
+ggsave(path = "Graph by Race and Ethnicity Updated and Corrected","AIAN updated map 2010.png",width = 7, height =7)
 
-AIANplot2010
+
+#AIANplot2010
 
 AIANplot2015<-ggplot()+
   geom_polygon(data=mapping2015,aes(x=long,y=lat,group=group,fill=Value.Rate),color='black',alpha=.8,size=.3)+
@@ -72,7 +71,9 @@ AIANplot2015<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("AI/AN Death Rate Map 2015")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-AIANplot2015
+ggsave(path = "Graph by Race and Ethnicity Updated and Corrected","AIAN updated map 2015.png",width = 7, height =7)
+
+#AIANplot2015
 
 
 AIANplot2020<-ggplot()+
@@ -83,7 +84,9 @@ AIANplot2020<-ggplot()+
   coord_map()+
   theme_nothing(base_size=12, legend=T)+
   ggtitle("AI/AN Death Rate Map 2020")+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25)),legend.text=element_text(size=rel(2)),legend.key.size=unit(2,"line"))
-AIANplot2020
+ggsave(path = "Graph by Race and Ethnicity Updated and Corrected","AIAN updated map 2020.png",width = 7, height =7)
+
+#AIANplot2020
 
 
 AIANgraph<-grid.arrange(AIANplot2010,AIANplot2015,AIANplot2020,nrow=3)
@@ -338,3 +341,7 @@ Whiteplot2020
 
 RawTotalAIAN<-rbind(NA2010,NA2015,NA2020)
 
+NameList <- list()
+for(i in names(mylist)){
+  write.csv(myList[[i]], paste0(i,".csv"))
+}

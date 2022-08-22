@@ -36,7 +36,7 @@ Map.NY=MapTotal[MapTotal$STATEFP=='36',]
 ui <- fluidPage(
   
   # Application title
-  titlePanel(p("Opioid Relatead Death Rate", style = "color:#3474A7")),
+  titlePanel(p("Opioid Relateed Death Rate", style = "color:#3474A7")),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(

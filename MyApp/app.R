@@ -41,7 +41,7 @@ Map.data=Map[Map$STATEFP=='39',]
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-  titlePanel(p("Opioid Relatead Death Rate", style = "color:#3474A7")),
+  titlePanel(p("Opioid Related Death Rate", style = "color:#3474A7")),
   sidebarLayout(
     sidebarPanel(
       selectInput(
