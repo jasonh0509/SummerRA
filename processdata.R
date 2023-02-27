@@ -13,7 +13,7 @@ library(ggplot2)
 
 #### output Rda files for the counties and census tracts
 
-data = read.csv('NC/NC_5year_2009.csv',header=TRUE)
+data = fread('NC5yr2015.csv',header=TRUE)
 ### keep county,state,tract data
 ### columns for id and variables we want - use Nethery variables
 
@@ -21,9 +21,9 @@ yrs = 2009:2021
 
 ### note insurance doesn't start in 2009 so ignore that?
 varlist = c("TotPop","TotPop_moe","Over65","Over65_moe","White1","pctWhite1","White1_moe","Over25","Over25_moe","Bachelors","pctBachelors","Bachelors_moe","Married","Married_moe","Over15","Over15_moe","EmployedCLF","EmployedCLF_moe","pctEmployedCLF","Over16","Over16_moe","MedianHHInc","MedianHHInc_moe","MedianGrossRent","MedianGrossRent_moe","TotHHS","TotHHS_moe","NotInsuredUnder65","NotInsuredUnder65_moe","FamHHS","FamHHS_moe","poor","poor_moe","UMPartnerHHsPerK","UMPartnerHHsPerK_moe" )
-countydata5.0 = data[which(data$SumLev=="050"),c(2,4)]
+countydata5.0 = data[which(data$SumLev=="050"),c(3,6)]
 n.cty = nrow(countydata5.0)
-countydata5 = data.frame("Year" = kronecker(yrs,rep(1,n.cty)),"geoid" = rep(countydata5.0$geoid,length(yrs)),"geocode" = rep(countydata5.0$geocode,length(yrs)))
+countydata5 = data.frame("Year" = kronecker(yrs,rep(1,n.cty)),"geoid" = rep(countydata5.0$geoid,length(yrs)),"geocode" = rep(countydata5.0$esriid,length(yrs)))
 
 countydata1.0 = data[which(data$SumLev=="050"),c(2,4)] ### include all counties just leave blanks
 countydata1 = data.frame("Year" = kronecker(yrs,rep(1,n.cty)),"geoid" = rep(countydata1.0$geoid,length(yrs)),"geocode" = rep(countydata1.0$geocode,length(yrs)))
