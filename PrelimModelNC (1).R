@@ -12,7 +12,7 @@ library(coda)
 ### Assume population of all tracts is known and equal to the 5-year values...
 
 
-load("NC_ACS.Rda")
+load("NC_ACS .Rda")
 yrs = 2014:2019
 yrs1 = 2010:2019
 
