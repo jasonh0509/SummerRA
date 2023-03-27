@@ -378,7 +378,7 @@ if(0){
     
    }
   
-  ggarrange(varmap1[[1]],varmap2[[1]],fmap[[1]]],varmap1[[2]],varmap2[[2]],fmap[[2]],varmap1[[3]],varmap2[[3]],fmap[[3]],varmap1[[4]],varmap2[[4]],fmap[[4]],varmap1[[5]],varmap2[[5]],fmap[[5]],ncol=3,nrow=5)
+  ggarrange(varmap1[[1]],varmap2[[1]],varmap1[[2]],varmap2[[2]],varmap1[[3]],varmap2[[3]],varmap1[[4]],varmap2[[4]],varmap1[[5]],varmap2[[5]],ncol=10,nrow=1)
   
   
 }

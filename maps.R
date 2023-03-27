@@ -7,11 +7,11 @@ library('shapefiles')
 library('ggmap')
 library('ggpubr')
 library('stringr')
-
+library(mapproj)
 #### make county and census tract level maps of some variables
 
 
-load("NC_ACS.Rda")
+load("NC_ACS .Rda")
 yrs = 2009:2021
 
 
@@ -32,7 +32,7 @@ ggplot(data=tractdata5[which(tractdata5$Year>2009 & tractdata5$Year<2020),], aes
   geom_line()
 
 
-nc.map10=readOGR(dsn='NC/Shapes',layer='tl_2015_37_tract')
+nc.map10=readOGR(dsn='Shapes',layer='tl_2015_37_tract')
 
 #convert to data frame
 nc.map.data=fortify(nc.map10,region='GEOID')
@@ -52,14 +52,23 @@ tractdata5$id2 = as.numeric(substr(tractdata5$geoid,8,23))
 tract2015 = tractdata5[which(tractdata5$Year==2015),]
 
 nc.map.data = merge(nc.map.data,tract2015[,c("id2","TotPop")],by="id2")
+nc.map.data = merge(nc.map.data,tract2015[,c("id2","White1_moe")],by="id2")
 
 ggplot()+
-  geom_polygon(data=nc.map.data,aes(x=long,y=lat,group=group,fill=TotPop),color='black',alpha=.8,size=.3)+
-  #scale_fill_gradient2(name="",limits=limits,midpoint=0,low='blue',high='red')+
+  geom_polygon(data=nc.map.data,aes(x=long,y=lat,group=group,fill=White1_moe),color="black",alpha=.8,size=.3)+
+  scale_fill_gradient2(name="",limits=c(0,1300),midpoint=650,low='blue',high='red')+
   coord_map()+
   theme_nothing(legend=T)+
   ggtitle(paste(2015))+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25),vjust=0.01),legend.text=element_text(size=rel(2)),legend.key.size=unit(4,"line"),legend.key.width=unit(1,"cm"))
 
+tract2009 = tractdata5[which(tractdata5$Year==2009),]
+nc.map.2009 = merge(nc.map.data,tract2009[,c("id2","Over65")],by="id2")
+ggplot()+
+  geom_polygon(data=nc.map.2009,aes(x=long,y=lat,group=group,fill=Over65),color='black',alpha=.8,size=.3)+
+  #scale_fill_gradient2(name="",limits=limits,midpoint=0,low='blue',high='red')+
+  coord_map()+
+  theme_nothing(legend=T)+
+  ggtitle(paste(2009))+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25),vjust=0.01),legend.text=element_text(size=rel(2)),legend.key.size=unit(4,"line"),legend.key.width=unit(1,"cm"))
 
 #### do count values of tracts sum to county values?
 
