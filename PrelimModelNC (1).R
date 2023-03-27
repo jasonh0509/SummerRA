@@ -4,7 +4,11 @@
 
 library(nimble)
 library(coda)
-
+library(rgdal)
+library(ggplot2)
+library(tidyverse)
+library(cowplot)
+library(egg)
 #### Only use data from 2010 - 2019 so that no changes of tracts
 #### Use all count variables - start with just two variables, say poor and EmployedCLF
 #### Only model 2014 - 2019 so can use 1-year data from 2010 - 2014 to help inform the later years
@@ -168,29 +172,29 @@ model_code=nimbleCode({
 mod_constants=list(K=dim(y.T5)[4],n.cty=n.cty,n.trct=trctpercty,adj=adj,weights=weights,num=num,T=length(yrs))
 mod_data=list(y.T5=y.T5,y.C5=y.C5,Pop=Pop)
 
-# Set initial values.
-
-mod_inits=list(mu = c(-2,-1),f = array(0,c(n.cty,max(trctpercty),length(yrs))),f.cty = matrix(0,n.cty,length(yrs)),alpha=rep(1,K))
- 
-nimble_model <- nimbleModel(model_code, mod_constants,mod_data,mod_inits)
-compiled_model <- compileNimble(nimble_model,resetFunctions = TRUE)
-
-mcmc_conf <- configureMCMC(nimble_model,monitors=c('mu','f','alpha','f.cty'),control=list(adaptive=TRUE,adaptInterval=100,sliceWidths=5,sliceMaxSteps=1000,maxContractions=10000000,sliceAdaptWidthMaxIter=0,sliceAdaptFactorMaxIter=0),useConjugacy = TRUE)
-
-nimble_mcmc<-buildMCMC(mcmc_conf)
-compiled_mcmc<-compileNimble(nimble_mcmc, project = nimble_model,resetFunctions = TRUE)
-
-MCS=100000
-MCB=50000
-MCT = 50
-st = Sys.time()
-samples=runMCMC(compiled_mcmc,inits=mod_inits,
-                nchains = 1, nburnin=MCB,niter = MCS,samplesAsCodaMCMC = TRUE,thin=MCT,
-                summary = FALSE, WAIC = FALSE,progressBar=TRUE) 
-Sys.time()-st
-
-
-save(samples,file='output.Rda')
+# # Set initial values.
+# 
+# mod_inits=list(mu = c(-2,-1),f = array(0,c(n.cty,max(trctpercty),length(yrs))),f.cty = matrix(0,n.cty,length(yrs)),alpha=rep(1,K))
+#  
+# nimble_model <- nimbleModel(model_code, mod_constants,mod_data,mod_inits)
+# compiled_model <- compileNimble(nimble_model,resetFunctions = TRUE)
+# 
+# mcmc_conf <- configureMCMC(nimble_model,monitors=c('mu','f','alpha','f.cty'),control=list(adaptive=TRUE,adaptInterval=100,sliceWidths=5,sliceMaxSteps=1000,maxContractions=10000000,sliceAdaptWidthMaxIter=0,sliceAdaptFactorMaxIter=0),useConjugacy = TRUE)
+# 
+# nimble_mcmc<-buildMCMC(mcmc_conf)
+# compiled_mcmc<-compileNimble(nimble_mcmc, project = nimble_model,resetFunctions = TRUE)
+# 
+# MCS=100000
+# MCB=50000
+# MCT = 50
+# st = Sys.time()
+# samples=runMCMC(compiled_mcmc,inits=mod_inits,
+#                 nchains = 1, nburnin=MCB,niter = MCS,samplesAsCodaMCMC = TRUE,thin=MCT,
+#                 summary = FALSE, WAIC = FALSE,progressBar=TRUE) 
+# Sys.time()-st
+# 
+# 
+# save(samples,file='output.Rda')
 
 
 
@@ -229,7 +233,7 @@ if(0){
   }
   
   
-  nc.maptrct=readOGR(dsn='NC/Shapes',layer='tl_2015_37_tract')
+  nc.maptrct=readOGR(dsn='Shapes',layer='tl_2015_37_tract')
   
   #convert to data frame
   nc.map.trct.data=fortify(nc.maptrct,region='GEOID')
@@ -255,9 +259,9 @@ if(0){
     }
   }
   
-  tractdata5$loglambda1 = log.lambda.mat[,1]
-  tractdata5$loglambda2 = log.lambda.mat[,2]
-  tractdata5$fhat = f.mat
+  # tractdata5$loglambda1 = log.lambda.mat[,1]
+  # tractdata5$loglambda2 = log.lambda.mat[,2]
+  # tractdata5$fhat = f.mat
   tractdata5$id2 = as.numeric(substr(tractdata5$geoid,8,23))
   
   ### remove the tracts that have 0 population
@@ -274,19 +278,20 @@ if(0){
     data2map = nc.map.trct.data[which(nc.map.trct.data$Year==t),]
    # data2map = data2map[which(data2map$County==37067),]
     data2map = data2map[which(data2map$County==37183),]
+    nc.map.trct.data$TotPop
     
     ll1map[[t-2013]]<- ggplot()+
-      geom_polygon(data=data2map,aes(x=long,y=lat,group=group,fill=loglambda1),color='black',alpha=.8,size=.3)+
+      geom_polygon(data=data2map,aes(x=long,y=lat,group=group,fill=TotPop),color='black',alpha=.8,size=.3)+
       scale_fill_gradient2(name="",low='blue',high='red')+
       coord_map()+
-      theme_nothing(legend=T)+
+      theme_nothing()+
       ggtitle(paste(t))+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25),vjust=0.01),legend.text=element_text(size=rel(2)),legend.key.size=unit(4,"line"),legend.key.width=unit(1,"cm"))
     
     ll2map[[t-2013]]<- ggplot()+
-      geom_polygon(data=data2map,aes(x=long,y=lat,group=group,fill=loglambda2),color='black',alpha=.8,size=.3)+
+      geom_polygon(data=data2map,aes(x=long,y=lat,group=group,fill=Over65),color='black',alpha=.8,size=.3)+
       scale_fill_gradient2(name="",low='blue',high='red')+
       coord_map()+
-      theme_nothing(legend=T)+
+      theme_nothing()+
       ggtitle(paste(t))+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25),vjust=0.01),legend.text=element_text(size=rel(2)),legend.key.size=unit(4,"line"),legend.key.width=unit(1,"cm"))
     
     
@@ -294,14 +299,14 @@ if(0){
       geom_polygon(data=data2map,aes(x=long,y=lat,group=group,fill=log(poor/TotPop+.1)),color='black',alpha=.8,size=.3)+
       scale_fill_gradient2(name="",low='blue',high='red')+
       coord_map()+
-      theme_nothing(legend=T)+
+      theme_nothing()+
       ggtitle(paste(t))+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25),vjust=0.01),legend.text=element_text(size=rel(2)),legend.key.size=unit(4,"line"),legend.key.width=unit(1,"cm"))
     
     varmap2[[t-2013]]<- ggplot()+
       geom_polygon(data=data2map,aes(x=long,y=lat,group=group,fill=log(UnemployedCLF/TotPop)),color='black',alpha=.8,size=.3)+
       scale_fill_gradient2(name="",low='blue',high='red')+
       coord_map()+
-      theme_nothing(legend=T)+
+      theme_nothing()+
       ggtitle(paste(t))+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25),vjust=0.01),legend.text=element_text(size=rel(2)),legend.key.size=unit(4,"line"),legend.key.width=unit(1,"cm"))
     
   }
@@ -333,7 +338,7 @@ if(0){
   countydata5$fcty.hat = as.vector(f.ctyhat)
   countydata5$id2 = countydata5$geocode
   
-  NCcty.map=readOGR(dsn='../../../Shapes',layer='cb_2014_us_county_500k')
+  NCcty.map=readOGR(dsn='Shapes',layer='cb_2014_us_county_500k')
   NCcty.map = NCcty.map[NCcty.map$STATEFP=='37',]
   NCcty.map = NCcty.map[order(NCcty.map$COUNTYFP),]
   
@@ -342,7 +347,7 @@ if(0){
   
   nc.map.cty.data = merge(nc.map.cty.data,countydata5,by="id2")
   
-  fmap <- list()
+  #fmap <- list()
   for(t in 2014:2019){
     data2map = nc.map.cty.data[which(nc.map.cty.data$Year==t),]
     fmap[[t-2013]]<- ggplot()+
@@ -361,19 +366,19 @@ if(0){
       geom_polygon(data=data2map,aes(x=long,y=lat,group=group,fill=log(poor/TotPop)),color='black',alpha=.8,size=.3)+
        scale_fill_gradient2(low='blue',high='red')+
       coord_map()+
-      theme_nothing(legend=T)+
+      #theme_nothing(legend=T)+
       ggtitle(paste(t))+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25),vjust=0.01),legend.text=element_text(size=rel(2)),legend.key.size=unit(4,"line"),legend.key.width=unit(1,"cm"))
  
     varmap2[[t-2013]]<- ggplot()+
       geom_polygon(data=data2map,aes(x=long,y=lat,group=group,fill=log(EmployedCLF/TotPop)),color='black',alpha=.8,size=.3)+
       scale_fill_gradient2(low='blue',high='red')+
       coord_map()+
-      theme_nothing(legend=T)+
+      #theme_nothing(legend=T)+
       ggtitle(paste(t))+theme(plot.title = element_text(hjust = 0.5,size = rel(2.25),vjust=0.01),legend.text=element_text(size=rel(2)),legend.key.size=unit(4,"line"),legend.key.width=unit(1,"cm"))
     
    }
   
-  ggarrange(varmap1[[1]],varmap2[[1]],fmap[[1]],varmap1[[2]],varmap2[[2]],fmap[[2]],varmap1[[3]],varmap2[[3]],fmap[[3]],varmap1[[4]],varmap2[[4]],fmap[[4]],varmap1[[5]],varmap2[[5]],fmap[[5]],ncol=3,nrow=5)
+  ggarrange(varmap1[[1]],varmap2[[1]],fmap[[1]]],varmap1[[2]],varmap2[[2]],fmap[[2]],varmap1[[3]],varmap2[[3]],fmap[[3]],varmap1[[4]],varmap2[[4]],fmap[[4]],varmap1[[5]],varmap2[[5]],fmap[[5]],ncol=3,nrow=5)
   
   
 }
