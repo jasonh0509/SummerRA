@@ -21,12 +21,19 @@ library(rgdal)
 library(raster)
 library(leafdown)
 
-load("NC_ACS .Rda")
+load("NC_ACS .Rda")##data contain the nc city data, zip code data and census tract data
+##US data sample(spatial polygon data frame)
 us1<-readRDS("Shapes/us1.RDS")
 us2<-readRDS("Shapes/us2.RDS")
+
+##load the shape file (nc)
 nc.map10=readOGR(dsn='Shapes',layer='tl_2015_37_tract')
+
+##the USA data is a sample of creating leafdown map(URL is in the document provided in the drive)
 nc1<-raster::getData(country="USA",level="1")
 nc2<-raster::getData(country="USA",level="2")
+
+##create a list of US data
 spdf.list<-list(us1,us2)
 my_leafdown$add_data(countydata5)
 
@@ -52,7 +59,7 @@ create_labels <- function(countydata5, map_level) {
   labels %>% lapply(htmltools::HTML)
 }
 
-# Define server logic required to draw a histogram
+# leafdown code(unfinished, complete sample code can be found and adapted from the healthdown sample, URL provided in the google doc)
 server <- function(input, output) {
   leafdown.try<-Leafdown$new(spdf.list, map_output_id = "leafdown", input = input)
   update_leafdown<-reactiveVal(0)
